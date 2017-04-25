@@ -1,0 +1,16 @@
+<div class="container-fluid">
+  <h3>Messages</h3>
+  <div class="messages">
+    <p class="no-messages text-muted" ng-if="$ctrl.messages.length == 0">No messages</p>
+    <div ng-repeat="message in $ctrl.messages">
+      <div class="card" ng-class="{'pull-left': $even, 'pull-right': $odd}">
+        <h5><strong>{{message.name}}:</strong></h5>
+        <p>{{message.content}}</p>
+      </div>
+    </div>
+  </div>
+  <form name="messageBoxForm" class="message-box">
+    <input type="text" name="message" class="form-control" placeholder="Type message here..." ng-model="$ctrl.message" ng-required="true"/>
+    <button type="button" class="btn btn-primary" ng-disabled="messageBoxForm.$invalid">Send</button>
+  </form>
+</div>

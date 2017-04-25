@@ -1,0 +1,9 @@
+<sidebar users="$ctrl.users"></sidebar>
+<div class="main-content pull-right">
+  <replaceable 
+    on-add-user="$ctrl.addUser({ id: id, name: name })" 
+    on-remove-user="$ctrl.removeUser({ id: id, name: name })"
+    on-send-message="$ctrl.sendMessage({ id: id, name: name, content: content })"></replaceable>
+  <hr>
+  <message-view messages="$ctrl.messages"></message-view>
+</div>
