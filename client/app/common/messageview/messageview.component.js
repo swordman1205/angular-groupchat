@@ -5,7 +5,8 @@ import './messageview.scss';
 let messageviewComponent = {
   restrict: 'E',
   bindings: {
-    messages: '='
+    messages: '=',
+    onCloseChat: '&'
   },
   template,
   controller

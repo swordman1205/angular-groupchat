@@ -3,6 +3,7 @@ class HomeController {
     this.name = 'home';
     this.users = [];
     this.messages = [];
+    this.isChatOpened = false;
   }
 
   addUser(user) {
@@ -36,6 +37,14 @@ class HomeController {
     } else {
       this.messages.push(messageInfo);
     }
+  }
+
+  openChatWindow() {
+    this.isChatOpened = true;
+  }
+
+  closeChatWindow() {
+    this.isChatOpened = false;
   }
 }
 

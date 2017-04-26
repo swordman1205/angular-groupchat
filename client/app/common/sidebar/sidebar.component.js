@@ -5,7 +5,8 @@ import './sidebar.scss';
 let sidebarComponent = {
   restrict: 'E',
   bindings: {
-    users: '='
+    users: '=',
+    onOpenChat: '&'
   },
   template,
   controller

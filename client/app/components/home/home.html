@@ -1,9 +1,16 @@
-<sidebar users="$ctrl.users"></sidebar>
+<sidebar 
+  users="$ctrl.users"
+  on-open-chat="$ctrl.openChatWindow()"></sidebar>
+
 <div class="main-content pull-right">
+
   <replaceable 
     on-add-user="$ctrl.addUser({ id: id, name: name })" 
     on-remove-user="$ctrl.removeUser({ id: id, name: name })"
     on-send-message="$ctrl.sendMessage({ id: id, name: name, content: content })"></replaceable>
-  <hr>
-  <message-view messages="$ctrl.messages"></message-view>
+
+  <message-view 
+    messages="$ctrl.messages"
+    on-close-chat="$ctrl.closeChatWindow()"
+    ng-if="$ctrl.isChatOpened"></message-view>
 </div>
