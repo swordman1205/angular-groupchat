@@ -7,7 +7,8 @@
   <replaceable 
     on-add-user="$ctrl.addUser({ id: id, name: name })" 
     on-remove-user="$ctrl.removeUser({ id: id, name: name })"
-    on-send-message="$ctrl.sendMessage({ id: id, name: name, content: content })"></replaceable>
+    on-send-message="$ctrl.sendMessage({ id: id, name: name, content: content })"
+    is-chat-opened="$ctrl.isChatOpened"></replaceable>
 
   <message-view 
     messages="$ctrl.messages"

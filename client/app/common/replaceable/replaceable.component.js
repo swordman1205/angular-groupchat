@@ -7,7 +7,8 @@ let replaceableComponent = {
   bindings: {
       onAddUser: '&',
       onRemoveUser: '&',
-      onSendMessage: '&'
+      onSendMessage: '&',
+      isChatOpened: '='
   },
   template,
   controller
