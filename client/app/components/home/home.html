@@ -12,5 +12,6 @@
   <message-view 
     messages="$ctrl.messages"
     on-close-chat="$ctrl.closeChatWindow()"
+    on-send-message="$ctrl.sendMessage({ id: id, name: name, content: content })" 
     ng-if="$ctrl.isChatOpened"></message-view>
 </div>

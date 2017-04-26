@@ -1,16 +1,19 @@
 .message-view {
   position: relative;
+  border-top: 1px solid #eee;
+  height: 50vh;
+  overflow: auto;
 
   .close-chat {
     position: absolute;
-    top: 0;
+    top: 15px;
     font-size: 20px;
     color: #555;
     right: 15px;
   }
 
   .messages {
-    height: 30vh;
+    height: calc(50vh - 115px);
     border: 1px solid #eee;
     overflow-y: auto;
     position: relative;

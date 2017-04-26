@@ -6,7 +6,8 @@ let messageviewComponent = {
   restrict: 'E',
   bindings: {
     messages: '=',
-    onCloseChat: '&'
+    onCloseChat: '&',
+    onSendMessage: '&'
   },
   template,
   controller

@@ -32,7 +32,7 @@ class HomeController {
     var index = this.users.findIndex((u) => {
       return u.id == messageInfo.id;
     });
-    if (index == -1) {
+    if (messageInfo.id && index == -1) {
       alert('Target user does not exist!');
     } else {
       this.messages.push(messageInfo);
