@@ -59,7 +59,7 @@
     "test": "karma start",
     "watch": "gulp serve",
     "webpack": "gulp webpack",
-    "poststart": "gulp webpack"
+    "postinstall": "gulp webpack"
   },
   "keywords": [
     "angular",
