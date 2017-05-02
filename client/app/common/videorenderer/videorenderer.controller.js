@@ -1,7 +1,7 @@
 class VideoRendererController {
-  constructor($timeout) {
+  constructor($timeout, $rootScope) {
     this.$timeout = $timeout;
-
+    this.$rootScope = $rootScope;
     this.loadVidyoClientLibrary();
     this.listenEvent();
   }
@@ -29,6 +29,7 @@ class VideoRendererController {
         logFileName:"",
         userData:""
       }).then((vidyoConnector) => {
+        this.$rootScope.vidyoConnector = vidyoConnector;
         vidyoConnector.Connect({
           host: "prod.vidyo.io",
           token: "cHJvdmlzaW9uAHNhY2hpbkBlOGQ5YTMudmlkeW8uaW8ANjM2NjE0NzY0OTQAADUwZjA5ZGUzZDRiNGUwMGU1NDI1YTY2YzAzMWFiYTNjM2UwOTUzMTczOTAxOTA2OGYzMWI4Mjg0ZDg5YjRmNmE5N2Y4ODliZTA5MTU1YjA4Y2UxZTM1M2QxZjVjMmViMA==",
@@ -48,21 +49,56 @@ class VideoRendererController {
             console.log('disconnected! Reason: ', reason);
           }
         }).then((status) => {
-            if (status) {
-                alert("ConnectCall Success");
-            } else {
-                console.error("ConnectCall Failed");
-            }
-        }).catch(() => {
+          if (status) {
+            this.handlePaticipants(vidyoConnector);
+            this.receiveMessage(vidyoConnector);
+          } else {
             console.error("ConnectCall Failed");
+          }
+        }).catch(() => {
+          console.error("ConnectCall Failed");
         });
       }).catch(() => {
         console.error("CreateVidyoConnector Failed");
       });
     });
   }
+
+  receiveMessage(vidyoConnector) {
+    vidyoConnector.RegisterMessageEventListener({
+      onChatMessageReceived: (participant, chatMessage) => {
+        console.log('********', chatMessage);
+        this.onSendMessage({ id: participant.id, name: participant.name, content: chatMessage.body });
+      }
+    }).then(() => {
+      console.log("RegisterParticipantEventListener Success");
+    }).catch(() => {
+      console.err("RegisterParticipantEventListener Failed");
+    });
+  }
+
+  handlePaticipants(vidyoConnector) {
+    vidyoConnector.RegisterParticipantEventListener(
+      {
+        onJoined: (participant) => {
+          console.log('Joined', participant);
+          this.onAddUser({ id:participant.id, name:participant.name });
+        },
+        onLeft: (participant) => {
+          console.log('Left', participant);
+          this.onRemoveUser({ id:participant.id, name:participant.name });
+        },
+        onDynamicChanged: (participants, cameras) => { /* Ordered array of participants according to rank */ },
+        onLoudestChanged: (participant, audioOnly) => { /* Current loudest speaker */ }
+      }
+    ).then(() => {
+      console.log("RegisterParticipantEventListener Success");
+    }).catch(() => {
+      console.err("RegisterParticipantEventListener Failed");
+    });
+  }
 }
 
-VideoRendererController.$inject = ['$timeout'];
+VideoRendererController.$inject = ['$timeout', '$rootScope'];
 
 export default VideoRendererController;

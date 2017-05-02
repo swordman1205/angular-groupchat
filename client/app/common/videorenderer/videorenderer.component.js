@@ -5,7 +5,10 @@ import './videorenderer.scss';
 let videorendererComponent = {
   restrict: 'E',
   bindings: {
-    isChatOpened: '='
+    isChatOpened: '=',
+    onAddUser: '&',
+    onRemoveUser: '&',
+    onSendMessage: '&'
   },
   template,
   controller

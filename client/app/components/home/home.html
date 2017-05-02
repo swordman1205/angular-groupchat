@@ -3,7 +3,17 @@
   on-open-chat="$ctrl.openChatWindow()"></sidebar>
 
 <div class="main-content pull-right">
-  <video-renderer is-chat-opened="$ctrl.isChatOpened"></video-renderer>
+
+  <!--<replaceable 
+    on-add-user="$ctrl.addUser({ id: id, name: name })" 
+    on-remove-user="$ctrl.removeUser({ id: id, name: name })"
+    on-send-message="$ctrl.sendMessage({ id: id, name: name, content: content })"
+    is-chat-opened="$ctrl.isChatOpened"></replaceable>-->
+  <video-renderer 
+    is-chat-opened="$ctrl.isChatOpened"
+    on-add-user="$ctrl.addUser({ id: id, name: name })"
+    on-remove-user="$ctrl.removeUser({ id: id, name: name })"
+    on-send-message="$ctrl.sendMessage({ id: id, name: name, content: content })"></video-renderer>
 
   <message-view 
     messages="$ctrl.messages"

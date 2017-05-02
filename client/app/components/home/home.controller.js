@@ -1,5 +1,6 @@
 class HomeController {
-  constructor() {
+  constructor($timeout) {
+    this.$timeout = $timeout;
     this.name = 'home';
     this.users = [];
     this.messages = [];
@@ -13,7 +14,9 @@ class HomeController {
     if (index > -1) {
       alert('User already exists!');
     } else {
-      this.users.push(user);
+      this.$timeout(() => {
+        this.users.push(user);
+      });
     }
   }
 
@@ -24,7 +27,9 @@ class HomeController {
     if (index == -1) {
       alert('User does not exist!');
     } else {
-      this.users.splice(index, 1);
+      this.$timeout(() => {
+        this.users.splice(index, 1);
+      });
     }
   }
 
@@ -35,7 +40,9 @@ class HomeController {
     if (messageInfo.id && index == -1) {
       alert('Target user does not exist!');
     } else {
-      this.messages.push(messageInfo);
+      this.$timeout(() => {
+        this.messages.push(messageInfo);
+      });
     }
   }
 
@@ -47,5 +54,7 @@ class HomeController {
     this.isChatOpened = false;
   }
 }
+
+HomeController.$inject = ['$timeout'];
 
 export default HomeController;
