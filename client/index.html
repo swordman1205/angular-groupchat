@@ -18,5 +18,25 @@
     <app>
       Loading...
     </app>
+    <script>
+      function onVidyoClientLoaded(status) {
+        switch (status.state) {
+          case "READY":
+            var event = new CustomEvent('vidyoclient:ready', {detail: VC});
+            document.dispatchEvent(event);
+            break;
+          case "RETRYING":     // The library operating is temporarily paused
+            break;
+          case "FAILED":       // The library operating has stopped
+            break;
+          case "FAILEDVERSION":
+            break;
+          case "NOTAVAILABLE": // The library is not available
+            break;
+        }
+        
+        return true; // Return true to reload the plugins if not available
+      }
+    </script>
   </body>
 </html>

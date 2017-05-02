@@ -1,0 +1,9 @@
+.video-area {
+  height: 50vh;
+  overflow: auto;
+  background-color: cornflowerblue;
+
+  &.expanded {
+    height: 100vh;
+  }
+}
