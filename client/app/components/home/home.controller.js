@@ -16,6 +16,7 @@ class HomeController {
     } else {
       this.$timeout(() => {
         this.users.push(user);
+        console.log(this.users);
       });
     }
   }
@@ -29,6 +30,7 @@ class HomeController {
     } else {
       this.$timeout(() => {
         this.users.splice(index, 1);
+        console.log(this.users);
       });
     }
   }
@@ -42,6 +44,7 @@ class HomeController {
     } else {
       this.$timeout(() => {
         this.messages.push(messageInfo);
+        console.log(this.messages);
       });
     }
   }

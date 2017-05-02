@@ -2,8 +2,22 @@ class VideoRendererController {
   constructor($timeout, $rootScope) {
     this.$timeout = $timeout;
     this.$rootScope = $rootScope;
-    this.loadVidyoClientLibrary();
     this.listenEvent();
+    this.listenConnectionChangeOrder();
+  }
+
+  listenConnectionChangeOrder() {
+    this.$rootScope.$on('connection:on', () => {
+      if (!this.$rootScope.vidyoConnector) {
+        this.loadVidyoClientLibrary();
+      } else {
+        this.connectVidyo(this.$rootScope.vidyoConnector);
+      }
+    });
+
+    this.$rootScope.$on('connection:off', () => {
+      this.disconnectVidyo(this.$rootScope.vidyoConnector);
+    });
   }
 
   listenEvent() {
@@ -11,13 +25,6 @@ class VideoRendererController {
       this.renderVideo(e.detail);
     });
   }
-
-  loadVidyoClientLibrary() {
-		var script = document.createElement('script');
-		script.type = 'text/javascript';
-		script.src = 'https://static.vidyo.io/4.1.11.4/javascript/VidyoClient/VidyoClient.js?onload=onVidyoClientLoaded';    
-		document.getElementsByTagName('head')[0].appendChild(script);
-	}
 
   renderVideo(VC) {
     this.$timeout(() => {
@@ -30,37 +37,54 @@ class VideoRendererController {
         userData:""
       }).then((vidyoConnector) => {
         this.$rootScope.vidyoConnector = vidyoConnector;
-        vidyoConnector.Connect({
-          host: "prod.vidyo.io",
-          token: "cHJvdmlzaW9uAHNhY2hpbkBlOGQ5YTMudmlkeW8uaW8ANjM2NjE0NzY0OTQAADUwZjA5ZGUzZDRiNGUwMGU1NDI1YTY2YzAzMWFiYTNjM2UwOTUzMTczOTAxOTA2OGYzMWI4Mjg0ZDg5YjRmNmE5N2Y4ODliZTA5MTU1YjA4Y2UxZTM1M2QxZjVjMmViMA==",
-          displayName: "test1",
-          resourceId: "TestRoom",
-
-          onSuccess: () => {
-            /* Connected */
-            console.log('connected!');
-          },
-          onFailure: (reason) => {
-            /* Failed */
-            console.log('failed! The reason: ', reason);
-          },
-          onDisconnected: (reason) => {
-            /* Disconnected */
-            console.log('disconnected! Reason: ', reason);
-          }
-        }).then((status) => {
-          if (status) {
-            this.handlePaticipants(vidyoConnector);
-            this.receiveMessage(vidyoConnector);
-          } else {
-            console.error("ConnectCall Failed");
-          }
-        }).catch(() => {
-          console.error("ConnectCall Failed");
-        });
+        this.connectVidyo(vidyoConnector);
       }).catch(() => {
         console.error("CreateVidyoConnector Failed");
       });
+    });
+  }
+
+  loadVidyoClientLibrary() {
+		var script = document.createElement('script');
+		script.type = 'text/javascript';
+		script.src = 'https://static.vidyo.io/4.1.11.4/javascript/VidyoClient/VidyoClient.js?onload=onVidyoClientLoaded';    
+		document.getElementsByTagName('head')[0].appendChild(script);
+	}
+
+  disconnectVidyo(vidyoConnector) {
+    vidyoConnector.Disconnect();
+  }
+
+  connectVidyo(vidyoConnector) {
+    vidyoConnector.Connect({
+      host: "prod.vidyo.io",
+      token: "cHJvdmlzaW9uAHNhY2hpbkBlOGQ5YTMudmlkeW8uaW8ANjM2NjE0NzY0OTQAADUwZjA5ZGUzZDRiNGUwMGU1NDI1YTY2YzAzMWFiYTNjM2UwOTUzMTczOTAxOTA2OGYzMWI4Mjg0ZDg5YjRmNmE5N2Y4ODliZTA5MTU1YjA4Y2UxZTM1M2QxZjVjMmViMA==",
+      displayName: "test1",
+      resourceId: "TestRoom",
+
+      onSuccess: () => {
+        /* Connected */
+        console.log('connected!');
+        this.$rootScope.$broadcast('connectedStatus', { isConnected: true });
+      },
+      onFailure: (reason) => {
+        /* Failed */
+        console.log('failed! The reason: ', reason);
+      },
+      onDisconnected: (reason) => {
+        /* Disconnected */
+        console.log('disconnected! Reason: ', reason);
+        this.$rootScope.$broadcast('connectedStatus', { isConnected: false });
+      }
+    }).then((status) => {
+      if (status) {
+        this.handlePaticipants(vidyoConnector);
+        this.receiveMessage(vidyoConnector);
+      } else {
+        console.error("ConnectCall Failed");
+      }
+    }).catch(() => {
+      console.error("ConnectCall Failed");
     });
   }
 
