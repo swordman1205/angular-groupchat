@@ -5,7 +5,9 @@
     <hr>
     <div class="participant-list">
         <div class="p-l-15 p-r-15">
-            <button class="btn" ng-disabled="$ctrl.isWorking" ng-class="{'btn-info': !$ctrl.isConnected, 'btn-danger': $ctrl.isConnected}" ng-click="$ctrl.toggleConnect()">{{$ctrl.isConnected? 'Disconnect' : 'Connect'}}</button>
+            <button class="btn btn-default btn-connection" ng-disabled="$ctrl.isWorking" ng-click="$ctrl.toggleConnect()">
+                <img src="{{$ctrl.isConnected? '/assets/icons/disconnect.png' : '/assets/icons/connect.png'}}"/>
+            </button>
             <h4>Participants</h4>
         </div>
         <div class="p-l-15 p-r-15" ng-if="$ctrl.users.length == 0">
