@@ -1,6 +1,7 @@
 var webpack = require('webpack');
 var path    = require('path');
 var config  = require('./webpack.config');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 config.output = {
   filename: '[name].bundle.js',
@@ -9,6 +10,10 @@ config.output = {
 };
 
 config.plugins = config.plugins.concat([
+
+  new CopyWebpackPlugin([
+    { from: 'client/assets', to: 'assets' }
+  ]),
 
   // Reduces bundles total size
   new webpack.optimize.UglifyJsPlugin({
