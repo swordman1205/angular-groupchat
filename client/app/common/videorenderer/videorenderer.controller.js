@@ -59,8 +59,8 @@ class VideoRendererController {
     vidyoConnector.Connect({
       host: "prod.vidyo.io",
       token: "cHJvdmlzaW9uAHNhY2hpbkBlOGQ5YTMudmlkeW8uaW8ANjM2NjE0NzY0OTQAADUwZjA5ZGUzZDRiNGUwMGU1NDI1YTY2YzAzMWFiYTNjM2UwOTUzMTczOTAxOTA2OGYzMWI4Mjg0ZDg5YjRmNmE5N2Y4ODliZTA5MTU1YjA4Y2UxZTM1M2QxZjVjMmViMA==",
-      displayName: "test1",
-      resourceId: "TestRoom",
+      displayName: this.$rootScope.user.name || 'testuser',
+      resourceId: this.$rootScope.user.roomId || 'TestRoom',
 
       onSuccess: () => {
         /* Connected */
